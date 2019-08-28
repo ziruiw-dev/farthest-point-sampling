@@ -8,15 +8,33 @@ from fps import FPS
 
 if __name__ == '__main__':
 
-    example_data = "bunny"
-    n_samples = 50
-    manully_step = True
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data", type=str, default="bunny",
+                        help="Load some points data, choices are \"bunny\", \"circle\", \"eclipse\", "
+                             "or \"a_path_to_your_ply_file\".")
+    parser.add_argument("--n_sample", type=int, default=50, help="Number of samples we would like to draw.")
+    parser.add_argument("--manually_step", type=bool, default=False,
+                        help="Hit \"N/n\" key to step sampling forward once.")
+
+    args = parser.parse_args()
+
+    example_data = args.data
+    n_samples = args.n_samples
+    manually_step = args.manually_step
 
     pcd_xyz = load_pcd(example_data)
+    print("Loaded ", example_data, "with shape: ", pcd_xyz.shape)
+
+    if n_samples > pcd_xyz.shape[0]:
+        print("WARNING: required {0:d} samples but the loaded point cloud only has {1:d} points.\n "
+              "Change the n_sample to {2:d}.".format(n_samples, pcd_xyz.shape[0], pcd_xyz.shape[0]))
+        print("WARNING: sampling")
+        n_samples = pcd_xyz.shape[0]
 
     fps = FPS(pcd_xyz, n_samples)
+    print("Initialised FPS sampler successfully.")
 
-
+    # Init visualisation
     pcd_all = o3d.geometry.PointCloud()
     pcd_all.points = o3d.utility.Vector3dVector(fps.pcd_xyz)
     pcd_all.paint_uniform_color([0, 1, 0])  # original: green
@@ -24,17 +42,18 @@ if __name__ == '__main__':
     pcd_selected = o3d.geometry.PointCloud()
 
 
-    if manully_step is False:
-        fps.fit()
+    if manually_step is False:
+        fps.fit() # Get all samples.
 
         pcd_selected.points = o3d.utility.Vector3dVector(fps.selected_points)
         pcd_selected.paint_uniform_color([1, 0, 0])  # selected: red
 
         o3d.visualization.draw_geometries([pcd_all, pcd_selected])
+        print("Set argument --manually_step and press \"N/n\" key to step the sampling process.")
     else:
 
         def fit_step_callback(vis):
-            fps.step()
+            fps.step() # Get ONE new sample
 
             pcd_selected.points = o3d.utility.Vector3dVector(fps.selected_points)
             pcd_selected.paint_uniform_color([1, 0, 0])  # selected:  red
