@@ -12,7 +12,7 @@ if __name__ == '__main__':
     parser.add_argument("--data", type=str, default="bunny",
                         help="Load some points data, choices are \"bunny\", \"circle\", \"eclipse\", "
                              "or \"a_path_to_your_ply_file\".")
-    parser.add_argument("--n_sample", type=int, default=50, help="Number of samples we would like to draw.")
+    parser.add_argument("--n_samples", type=int, default=50, help="Number of samples we would like to draw.")
     parser.add_argument("--manually_step", type=bool, default=False,
                         help="Hit \"N/n\" key to step sampling forward once.")
 
@@ -49,7 +49,7 @@ if __name__ == '__main__':
         pcd_selected.paint_uniform_color([1, 0, 0])  # selected: red
 
         o3d.visualization.draw_geometries([pcd_all, pcd_selected])
-        print("Set argument --manually_step and press \"N/n\" key to step the sampling process.")
+        print("You can step the sampling process by setting \"--manually_step\" to True and press \"N/n\".")
     else:
 
         def fit_step_callback(vis):
