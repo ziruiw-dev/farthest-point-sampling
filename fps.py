@@ -3,7 +3,7 @@ import numpy as np
 class FPS:
     def __init__(self, pcd_xyz, n_samples):
         self.n_samples = n_samples
-        self.pcd = pcd_xyz
+        self.pcd_xyz = pcd_xyz
         self.num_pts = pcd_xyz.shape[0]
         self.dim = pcd_xyz.shape[1]
         self.samples = None
