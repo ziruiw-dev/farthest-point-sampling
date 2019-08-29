@@ -37,6 +37,7 @@ if __name__ == '__main__':
 
     fps = FPS(pcd_xyz, n_samples)
     print("Initialised FPS sampler successfully.")
+    print("Running FPS over {0:d} points and geting {1:d} samples.".format(pcd_xyz.shape[0], n_samples))
 
     # Init visualisation
     pcd_all = o3d.geometry.PointCloud()
@@ -47,6 +48,7 @@ if __name__ == '__main__':
 
     if manually_step is False:
         fps.fit()  # Get all samples.
+        print("FPS sampling finished.")
 
         pcd_selected.points = o3d.utility.Vector3dVector(fps.get_selected_pts())
         pcd_selected.paint_uniform_color([1, 0, 0])  # selected: red
