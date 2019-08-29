@@ -16,15 +16,12 @@ if __name__ == '__main__':
     parser.add_argument("--n_samples", type=int, default=50, help="Number of samples we would like to draw.")
     parser.add_argument("--manually_step", type=bool, default=False,
                         help="Hit \"N/n\" key to step sampling forward once.")
-    parser.add_argument("--group_radius", type=float, default=0.05,
-                        help="Radius for grouping. Need to be considered according to the point cloud scale.")
 
     args = parser.parse_args()
 
     example_data = args.data
     n_samples = args.n_samples
     manually_step = args.manually_step
-    group_radius = args.group_radius
 
     pcd_xyz = load_pcd(example_data)
     print("Loaded ", example_data, "with shape: ", pcd_xyz.shape)
