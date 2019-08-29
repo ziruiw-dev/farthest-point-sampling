@@ -3,7 +3,8 @@ import numpy as np
 import argparse
 
 from load_pcd import load_pcd
-from fps import FPS
+# from fps_v0 import FPS      # Simple loop
+from fps_v1 import FPS      # Utilise broadcasting
 
 
 if __name__ == '__main__':
@@ -15,19 +16,23 @@ if __name__ == '__main__':
     parser.add_argument("--n_samples", type=int, default=50, help="Number of samples we would like to draw.")
     parser.add_argument("--manually_step", type=bool, default=False,
                         help="Hit \"N/n\" key to step sampling forward once.")
+    parser.add_argument("--group_radius", type=float, default=0.05,
+                        help="Radius for grouping. Need to be considered according to the point cloud scale.")
 
     args = parser.parse_args()
 
     example_data = args.data
     n_samples = args.n_samples
     manually_step = args.manually_step
+    group_radius = args.group_radius
 
     pcd_xyz = load_pcd(example_data)
     print("Loaded ", example_data, "with shape: ", pcd_xyz.shape)
 
     if n_samples > pcd_xyz.shape[0]:
         print("WARNING: required {0:d} samples but the loaded point cloud only has {1:d} points.\n "
-              "Changed the n_sample to {2:d}.".format(n_samples, pcd_xyz.shape[0], pcd_xyz.shape[0]))
+              "Change the n_sample to {2:d}.".format(n_samples, pcd_xyz.shape[0], pcd_xyz.shape[0]))
+        print("WARNING: sampling")
         n_samples = pcd_xyz.shape[0]
 
     fps = FPS(pcd_xyz, n_samples)
@@ -40,11 +45,10 @@ if __name__ == '__main__':
 
     pcd_selected = o3d.geometry.PointCloud()
 
-
     if manually_step is False:
-        fps.fit() # Get all samples.
+        fps.fit()  # Get all samples.
 
-        pcd_selected.points = o3d.utility.Vector3dVector(fps.selected_points)
+        pcd_selected.points = o3d.utility.Vector3dVector(fps.get_selected_pts())
         pcd_selected.paint_uniform_color([1, 0, 0])  # selected: red
 
         o3d.visualization.draw_geometries([pcd_all, pcd_selected])
@@ -54,7 +58,7 @@ if __name__ == '__main__':
         def fit_step_callback(vis):
             fps.step() # Get ONE new sample
 
-            pcd_selected.points = o3d.utility.Vector3dVector(fps.selected_points)
+            pcd_selected.points = o3d.utility.Vector3dVector(fps.get_selected_pts())
             pcd_selected.paint_uniform_color([1, 0, 0])  # selected:  red
             vis.update_geometry()
 
@@ -62,7 +66,7 @@ if __name__ == '__main__':
         key_to_callback = {ord("N"): fit_step_callback}
 
         # Draw the first sampled points.
-        pcd_selected.points = o3d.utility.Vector3dVector(fps.selected_points)
+        pcd_selected.points = o3d.utility.Vector3dVector(fps.get_selected_pts())
         pcd_selected.paint_uniform_color([1, 0, 0])  # selected: red
 
         # Draw a new sample points every time press "N/n" key.
