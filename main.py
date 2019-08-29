@@ -27,8 +27,7 @@ if __name__ == '__main__':
 
     if n_samples > pcd_xyz.shape[0]:
         print("WARNING: required {0:d} samples but the loaded point cloud only has {1:d} points.\n "
-              "Change the n_sample to {2:d}.".format(n_samples, pcd_xyz.shape[0], pcd_xyz.shape[0]))
-        print("WARNING: sampling")
+              "Changed the n_sample to {2:d}.".format(n_samples, pcd_xyz.shape[0], pcd_xyz.shape[0]))
         n_samples = pcd_xyz.shape[0]
 
     fps = FPS(pcd_xyz, n_samples)
