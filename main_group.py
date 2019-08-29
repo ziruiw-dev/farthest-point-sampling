@@ -63,4 +63,5 @@ if __name__ == '__main__':
     fps_pts = fps_group_demo(pcd_xyz, n_samples, colormap, group_radius)
 
     o3d.visualization.draw_geometries([fps_pts])
+    print("Tips: Press `Ctrl` + `+/-` to change point size.")
 
