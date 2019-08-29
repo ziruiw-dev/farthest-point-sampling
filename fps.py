@@ -14,7 +14,6 @@ class FPS:
         # random pick a start
         start_idx = np.random.randint(low=0, high=self.num_pts-1)
         self.selected_points[0] = self.remaining_points[start_idx]
-        self.remaining_points = np.delete(self.remaining_points, start_idx, axis=0)  # delete the row of the sampled point
         self.n_selected_pts = 1
 
 
@@ -27,7 +26,6 @@ class FPS:
 
             selected_idx = np.argmax(dist_list_entire)
             self.selected_points[self.n_selected_pts] = self.remaining_points[selected_idx]
-            np.delete(self.remaining_points, selected_idx, axis=0)
             self.n_selected_pts += 1
         else:
             print("Got enough number samples")
