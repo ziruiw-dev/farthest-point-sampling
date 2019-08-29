@@ -39,7 +39,7 @@ def load_pcd(data="bunny"):
 
     pcd_xyz = None
     if data == "bunny":
-        pcd = o3d.io.read_point_cloud("./example_data/mesh/bunny/reconstruction/bun_zipper_res3.ply")
+        pcd = o3d.io.read_point_cloud("./example_data/mesh/bunny/reconstruction/bun_zipper_res2.ply")
         pcd_xyz = np.asarray(pcd.points)
     elif data == "circle":
         pcd_xyz = __points_on_circle__(radius=1, num_pts=1000)
