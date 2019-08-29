@@ -4,26 +4,38 @@ This repo is a vanilla implementation of 3D farthest-point-sampling (FPS) algori
 
 The most important equation is _eq. 2.6_.
 
+Two demos are avaible in this repo:
+1. `main_sample.py`: demonstrates how the points are sampled in FPS and provides a function to visulise sampling process step by step.
+2. `main_group.py`: A simple point grouping method which groups points using a fix radius sphere over the FPS sampled points. 
 
-# Install Dependencies:
+
+## Install Dependencies:
 ```
 conda install numpy
 conda install -c open3d-admin open3d 
 ```
 
-# Usage
-To simply run the demo:
+## Usage
+To simply run the fps **sampling** demo:
 ```
-python main.py
+python main_sample.py
 ```
+
+To simply run the fps **grouping** demo:
+```
+python main_group.py
+```
+
 
 Other parameters can be set:
 
 - `--n_samples`: num of samples.
 - `--data`: choose an example data to load, available options are "bunny", "circle", "eclipse", or you can set it to a path points to your `ply` file.
-- `--manually_step`: step the sampling process manully by pressing "N/n" key.
+- `--manually_step`: **(only in `main_sample`)** step the sampling process manully by pressing "N/n" key.
+- `--group_radius`: **(only in `main_group`)** set the grouping radius.
 
 Example:
 ```
-python main.py --data="circle" --n_samples=50 --manually_step=True
+python main_sample.py --data="circle" --n_samples=50 --manually_step=True
+python main_group.py --data="circle" --n_samples=50 --group_radius
 ```
