@@ -37,5 +37,5 @@ Other parameters can be set:
 Example:
 ```
 python main_sample.py --data="circle" --n_samples=50 --manually_step=True
-python main_group.py --data="circle" --n_samples=50 --group_radius
+python main_group.py --data="circle" --n_samples=50 --group_radius=0.06
 ```
