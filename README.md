@@ -12,7 +12,7 @@ Two demos are avaible in this repo:
 ## Install Dependencies:
 ```
 conda install numpy
-conda install -c open3d-admin open3d 
+conda install -c open3d-admin open3d=0.7
 ```
 
 ## Usage
